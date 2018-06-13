@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="adminhtml.indexer.grid.grid.massaction">
+            <arguments>
+                <argument name="massaction_id_field" xsi:type="string">indexer_id</argument>
+                <argument name="form_field_name" xsi:type="string">indexer_ids</argument>
+                <argument name="use_select_all" xsi:type="string">1</argument>
+                <argument name="options" xsi:type="array">
+                    <updater>Magento\Indexer\Block\Backend\Grid\ItemsUpdater</updater>
+                    <item name="change_mode_onthefly" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Update on Save</item>
+                        <item name="url" xsi:type="string">*/indexer/massOnTheFly</item>
+                    </item>
+                    <item name="change_mode_changelog" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Update by Schedule</item>
+                        <item name="url" xsi:type="string">*/indexer/massChangelog</item>
+                    </item>
+                    <item name="change_mode_invalidate" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Invalidate</item>
+                        <item name="url" xsi:type="string">invalidateindexers/indexer/invalidateIndexers</item>
+                    </item>
+                </argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Text" name="content.inchoocontent">
+                <action method="setText">
+                    <argument translate="true" name="text" xsi:type="string">
+                        <![CDATA[
+                            <script>
+                                require(['jquery', 'domReady!'], function($){
+                                    'use strict';
+                                    $('.inchoo-invalidate-info').closest('.message-success.success').addClass('inchoo-hidden');
+                                    $('.inchoo-invalidate-show').click(function () {
+                                        if ($('.inchoo-invalidate-info').length > 0) {
+                                            $('.inchoo-invalidate-info').each(function () {
+                                                if ($(this).closest('.message-success.success').hasClass('inchoo-hidden')) {
+                                                    $(this).closest('.message-success.success').removeClass('inchoo-hidden');
+                                                } else {
+                                                    $(this).closest('.message-success.success').addClass('inchoo-hidden');
+                                                }
+                                            });
+                                        }
+                                    });
+                                });
+                            </script>
+                            <style>
+                                .inchoo-hidden{
+                                    display: none;
+                                }
+                            </style>
+                        ]]>
+                    </argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
